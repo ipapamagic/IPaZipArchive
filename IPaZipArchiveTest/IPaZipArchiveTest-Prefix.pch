@@ -1,0 +1,8 @@
+//
+// Prefix header for all source files of the 'IPaZipArchiveTest' target in the 'IPaZipArchiveTest' project
+//
+
+#ifdef __OBJC__
+    #import <UIKit/UIKit.h>
+    #import <Foundation/Foundation.h>
+#endif
