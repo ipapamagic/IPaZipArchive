@@ -218,6 +218,10 @@
 {
     return (CGFloat) processFileSize / (CGFloat)originalFileSize;
 }
+-(BOOL)isEncrypted
+{
+    return isEncrypted;
+}
 -(BOOL) UnzipCloseFile
 {
 	if( _unzFile )
@@ -227,35 +231,6 @@
 		return ret == UNZ_OK;
     }
 	return YES;
-}
-
--(BOOL) UnzipIsEncrypted {
-    
-    int ret = unzGoToFirstFile( _unzFile );
-    if (ret == UNZ_OK) {
-        do {
-            ret = unzOpenCurrentFile( _unzFile );
-            if( ret!=UNZ_OK ) {
-                return NO;
-            }
-            unz_file_info	fileInfo ={0};
-            ret = unzGetCurrentFileInfo(_unzFile, &fileInfo, NULL, 0, NULL, 0, NULL, 0);
-            if (ret!= UNZ_OK) {
-                return NO;
-            }
-            else if((fileInfo.flag & 1) == 1) {
-                return YES;
-            }
-            
-            unzCloseCurrentFile( _unzFile );
-            ret = unzGoToNextFile( _unzFile );
-        }while( ret==UNZ_OK && UNZ_OK!=UNZ_END_OF_LIST_OF_FILE );
-        
-        
-    }
-    
-    
-    return NO;
 }
 
 

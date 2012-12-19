@@ -19,12 +19,12 @@ typedef enum {
 @interface IPaZipArchiveReader : NSObject
 @property (nonatomic,weak) id<IPaZipArchiveReaderDelegate> delegate;
 @property (nonatomic,readonly) CGFloat unzipProgress;
+@property (nonatomic,readonly) BOOL isEncrypted;
 -(BOOL) UnzipOpenFile:(NSString*) zipFile;
 -(BOOL) UnzipFileTo:(NSString*) path overWrite:(BOOL) overwrite;
 -(BOOL) UnzipFileTo:(NSString*) path overWrite:(BOOL) overwrite withPassword:(NSString *)password;
 -(BOOL) UnzipCloseFile;
 
--(BOOL) UnzipIsEncrypted;
 
 @end
 
