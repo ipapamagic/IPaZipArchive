@@ -7,30 +7,26 @@
 //
 
 #import <Foundation/Foundation.h>
-typedef enum {
-    IPaZipReaderErrorCode_CanNotReachFile,
-    IPaZipReaderErrorCode_CanNotOpenFile,
-    IPaZipReaderErrorCode_CanNotGetFileInfo,
-    IPaZipReaderErrorCode_NeedPassword,
-    IPaZipReaderErrorCode_FailToReadZipFile,
-}IPaZipReaderErrorCode;
+
+typedef NS_ENUM(NSInteger, IPaZipReaderRetCode) {
+    IPaZipReaderRetCode_Success,
+    IPaZipReaderRetCode_CloseFail,
+    IPaZipReaderRetCode_CanNotReachFile,
+    IPaZipReaderRetCode_CanNotOpenFile,
+    IPaZipReaderRetCode_CanNotGetFileInfo,
+    IPaZipReaderRetCode_NeedPassword,
+    IPaZipReaderRetCode_FailToReadZipFile,
+};
 
 @protocol IPaZipArchiveReaderDelegate;
 @interface IPaZipArchiveReader : NSObject
-@property (nonatomic,weak) id<IPaZipArchiveReaderDelegate> delegate;
-@property (nonatomic,readonly) CGFloat unzipProgress;
+@property (nonatomic,readonly) float unzipProgress;
 @property (nonatomic,readonly) BOOL isEncrypted;
--(BOOL) UnzipOpenFile:(NSString*) zipFile;
--(BOOL) UnzipFileTo:(NSString*) path overWrite:(BOOL) overwrite;
--(BOOL) UnzipFileTo:(NSString*) path overWrite:(BOOL) overwrite withPassword:(NSString *)password;
--(BOOL) UnzipCloseFile;
+-(IPaZipReaderRetCode) unzipOpenFile:(NSString*) zipFile;
+-(IPaZipReaderRetCode) unzipFileTo:(NSString*) path overWrite:(BOOL) overwrite;
+-(IPaZipReaderRetCode) unzipFileTo:(NSString*) path overWrite:(BOOL) overwrite withPassword:(NSString *)password;
+-(IPaZipReaderRetCode) unzipCloseFile;
 
 
 @end
 
-@protocol IPaZipArchiveReaderDelegate <NSObject>
-@optional
--(void)onIPaZipArchiveReader:(IPaZipArchiveReader*)reader errorOccur:(IPaZipReaderErrorCode)errorCode;
--(void)onIPaZipArchiveReader:(IPaZipArchiveReader *)reader willProcessFile:(NSString*)fileName;
--(void)onIPaZipArchiveReader:(IPaZipArchiveReader *)reader didProcessFile:(NSString*)fileName;
-@end
